@@ -4,7 +4,7 @@ version := "1.0"
 
 scalaVersion := "2.11.8"
 
-val sparkVersion = "1.6.1"
+val sparkVersion = "2.0.2"
 
 libraryDependencies ++=
     Seq(
@@ -14,7 +14,8 @@ libraryDependencies ++=
       "org.apache.spark" %% "spark-core" % sparkVersion % "provided",
       "org.apache.spark" %% "spark-streaming" % sparkVersion % "provided",
       "org.apache.spark" %% "spark-sql" % sparkVersion % "provided",
-      "org.apache.spark" % "spark-streaming-kafka_2.11" % "1.6.1",
+      "org.apache.spark" %% "spark-streaming-kafka-0-10" % "2.0.2",
+      "com.typesafe" % "config" % "1.2.1",
       "org.rogach" %% "scallop" % "2.0.2"
     )
 
@@ -33,11 +34,11 @@ assemblyMergeStrategy in assembly := {
 }
 
 // scala lint
-// lazy val compileScalastyle = taskKey[Unit]("compileScalastyle")
-// compileScalastyle := org.scalastyle.sbt.ScalastylePlugin.scalastyle.in(Compile).toTask("").value
-//
-// (compile in Compile) <<= (compile in Compile) dependsOn compileScalastyle
-//
-// lazy val testScalastyle = taskKey[Unit]("testScalastyle")
-// testScalastyle := org.scalastyle.sbt.ScalastylePlugin.scalastyle.in(Test).toTask("").value
-//
+lazy val compileScalastyle = taskKey[Unit]("compileScalastyle")
+compileScalastyle := org.scalastyle.sbt.ScalastylePlugin.scalastyle.in(Compile).toTask("").value
+
+(compile in Compile) <<= (compile in Compile) dependsOn compileScalastyle
+
+lazy val testScalastyle = taskKey[Unit]("testScalastyle")
+testScalastyle := org.scalastyle.sbt.ScalastylePlugin.scalastyle.in(Test).toTask("").value
+
