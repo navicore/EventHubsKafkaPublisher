@@ -16,7 +16,8 @@ libraryDependencies ++=
       "org.apache.spark" %% "spark-sql" % sparkVersion % "provided",
       "org.apache.spark" %% "spark-streaming-kafka-0-10" % "2.0.2",
       "com.typesafe" % "config" % "1.2.1",
-      "org.rogach" %% "scallop" % "2.0.2"
+      "org.rogach" %% "scallop" % "2.0.2",
+      "com.microsoft.azure" % "azure-eventhubs" % "0.9.0"
     )
 
 mainClass in assembly := Some("onextent.tools.kafka.KafkaTools")
