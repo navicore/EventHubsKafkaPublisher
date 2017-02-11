@@ -17,7 +17,9 @@ object Main extends Serializable with LazyLogging {
     val config = ConfigFactory.load().getConfig("main")
 
     val sparkConfig = new SparkConf().set("spark.cores.max", "2")
-    val ssc = new StreamingContext(new SparkContext(sparkConfig), Seconds(config.getString("kafka.batchDuration").toInt))
+    val ssc = new StreamingContext(
+      new SparkContext(sparkConfig),
+      Seconds(config.getString("kafka.batchDuration").toInt))
 
     val kafkaParams = Map[String, Object](
       "bootstrap.servers" -> config.getString("kafka.brokerList"),
@@ -36,16 +38,16 @@ object Main extends Serializable with LazyLogging {
       Subscribe[String, String](topics, kafkaParams)
     )
 
-
-    stream.map(record => (record.key, record.value)).foreachRDD(rdd => rdd.foreach(o => {
-      println(s"key ${o._1} val: ${o._2}")
-      val sendEvent = new EventData(o._2.getBytes("UTF8"))
-      EhPublisher.ehClient.send(sendEvent)
-    }))
+    stream
+      .map(record => record.value)
+      .foreachRDD(rdd =>
+        rdd.foreach(o => {
+          val sendEvent = new EventData(o.getBytes("UTF8"))
+          EhPublisher.ehClient.send(sendEvent)
+        }))
 
     ssc.start()
     ssc.awaitTermination()
 
   }
 }
-
