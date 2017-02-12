@@ -1,3 +1,5 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/3ac3a4e50a6444889229b73742a1a6ef)](https://www.codacy.com/app/navicore/EventHubsKafkaPublisher?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=navicore/EventHubsKafkaPublisher&amp;utm_campaign=Badge_Grade)
+
 # UNDER CONSTRUCTION - NOT WORKING QUITE YET
 
 # temporarily inlining the src from the azure event hubs master repo (waiting on a jar for v2.0.3)
